@@ -1,0 +1,86 @@
+﻿@page
+@model PIBasesISGrupo1.Pages.Encuestas.PaginaInicioEncuestaModel
+@{
+    ViewData["Title"] = "Lista de encuestas";
+
+}
+
+<h1 class="encuestas__title">Lista de encuestas</h1>
+
+<p>
+    <a asp-page="CrearEncuesta" class="primary-btn2 text-uppercase enroll rounded-0">Crear encuesta</a>
+</p>
+
+
+
+<table class="table encuestas__table">
+    <thead>
+        <tr>
+            <th>
+                <h3>Nombre de Encuesta</h3>
+            </th>
+
+            <th>
+                <h3>Tópico</h3>
+            </th>
+            <th>
+                <h3>Correo de autor</h3>
+            </th>
+            <th>
+                <h3>Vigencia</h3>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if ((List<PIBasesISGrupo1.Models.EncuestaModel>)ViewData["Encuestas"] != null)
+            {
+                foreach (var item in (List<PIBasesISGrupo1.Models.EncuestaModel>)ViewData["Encuestas"])
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombreEncuesta)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.topico)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.correo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.vigencia) días
+                        </td>
+                        <td>
+
+                            <div class="encuestas__buttons">
+                                <a asp-page="./EditarEncuesta" asp-route-id="@item.id" class="primary-btn-encuestas text-uppercase enroll rounded-0" style="margin-left:0px">Editar</a>
+                                <a asp-page="./BorrarEncuesta" asp-route-id="@item.id" class="primary-btn-encuestas text-uppercase enroll rounded-0" style="margin-left:35px;"> Borrar </a>
+                            </div>
+                            <div class="encuestas__buttons">
+                                <form asp-page-handler="compartir" method="post" asp-route-id="@item.id">
+                                    <button class="primary-btn-encuestas text-uppercase enroll rounded-0 "style="margin-left:0px">Compartir</button>
+                                </form>
+                                <a asp-page="./ListaPreguntas" asp-route-id="@item.id" class="primary-btn-encuestas text-uppercase enroll rounded-0"> Preguntas </a>
+                            </div>
+                            
+                            <div class="encuestas__buttons">
+                                <a asp-page="./MostrarRespuestas" asp-route-id="@item.id" class="primary-btn-encuestas text-uppercase enroll rounded-0" style="padding:0 8px;margin-left:0px;"> Ver respuestas </a>
+
+                                <form asp-page-handler="ExportarRespuestas" method="post" asp-route-idEncuesta="@item.id">
+                                    <button class="primary-btn-encuestas text-uppercase enroll rounded-0">Exportar Respuestas</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+
+                }
+            }
+        }
+    </tbody>
+</table>
+
